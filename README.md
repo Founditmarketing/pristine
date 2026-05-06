@@ -77,9 +77,35 @@ Edit copy in `src/data/site.js` and `src/data/services.js`. Components pull from
 6. `/contact` split layout with React Hook Form + Zod
 7. `/about`, `/markets`, `/testimonials`, `/products`, `/events`
 
+## Image generation (Nano Banana)
+
+Hero, services, and before/after images are generated locally via Google's
+Gemini 2.5 Flash Image model (nicknamed "Nano Banana") and committed to
+`public/images/`. Re-run anytime to refresh the photography:
+
+```bash
+npm run images:generate            # generate all targets
+npm run images:generate hero       # only targets matching "hero"
+npm run images:list-models         # see image-capable models on your key
+```
+
+Add or edit prompts in `scripts/generate-images.mjs`. PNGs come back at
+roughly 1500x1500 and ~1.7 MB each; convert to WebP for production with:
+
+```bash
+ffmpeg -i public/images/<name>.png -c:v libwebp -quality 82 public/images/<name>.webp
+```
+
+`GEMINI_API_KEY` lives in `.env` at the repo root (gitignored). Get a key
+at https://aistudio.google.com/apikey. Image generation is paid; cost is
+roughly $0.04 per image on Flash.
+
 ## Notes for future work
 
-- Hero photo is currently an Unsplash CDN URL. Swap `HERO_IMAGE` in `src/components/home/Hero.jsx` for client photography when available, ideally a 2400px wide WebP saved to `public/images/`.
-- Phone, email, and social URLs in `src/data/site.js` are placeholders. Update before launch.
+- Real client photography can replace the generated images one-for-one;
+  swap the `HERO_IMAGE`, `FEATURED_IMAGE`, and `BEFORE_IMAGE` constants
+  to point at the new files.
+- Phone, email, and social URLs in `src/data/site.js` are placeholders.
+  Update before launch.
 - Light theme only for v1. Dark mode is a refinement, not a foundation.
 - Reduced-motion is honored globally and in the Hero parallax.

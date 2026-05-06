@@ -112,8 +112,7 @@ function Card({ service, Icon }) {
   )
 }
 
-const FEATURED_IMAGE =
-  'https://images.unsplash.com/photo-1572893994576-fc4b6e2d2e8a?auto=format&fit=crop&w=1600&q=80'
+const FEATURED_IMAGE = '/images/services-dredging.webp'
 
 function FeaturedCard({ service, Icon }) {
   return (

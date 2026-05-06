@@ -8,7 +8,9 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "images:generate": "node scripts/generate-images.mjs",
+    "images:list-models": "node scripts/list-models.mjs"
   },
   "dependencies": {
     "class-variance-authority": "^0.7.1",
@@ -21,10 +23,12 @@
     "tailwind-merge": "^2.6.0"
   },
   "devDependencies": {
+    "@google/genai": "^1.52.0",
     "@tailwindcss/vite": "^4.0.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "@vitejs/plugin-react": "^4.3.4",
+    "dotenv": "^17.4.2",
     "eslint": "^9.17.0",
     "eslint-plugin-react": "^7.37.3",
     "eslint-plugin-react-hooks": "^5.1.0",

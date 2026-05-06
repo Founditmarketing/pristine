@@ -6,12 +6,10 @@ import { SectionHeader } from '@/components/shared/SectionHeader'
 /**
  * Drag-to-compare slider. Single source image with a stylized "before" filter
  * (desaturated and warm-shifted to suggest neglect) so the comparison reads
- * cleanly without sourcing a matched photo pair. Swap in real client
- * before/after photography by pointing BEFORE_IMAGE and AFTER_IMAGE at
- * different URLs.
+ * cleanly without sourcing a matched photo pair. Swap BEFORE_IMAGE and
+ * AFTER_IMAGE for real matched client photography when available.
  */
-const BEFORE_IMAGE =
-  'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1800&q=85'
+const BEFORE_IMAGE = '/images/pond-pristine.webp'
 const AFTER_IMAGE = BEFORE_IMAGE
 
 const BEFORE_FILTER = 'saturate(0.35) brightness(0.78) sepia(0.45) contrast(0.95)'

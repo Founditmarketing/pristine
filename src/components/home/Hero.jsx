@@ -9,12 +9,12 @@ const ease = [0.16, 1, 0.3, 1]
 const HEADLINE = ['Pristine', 'water,', 'thriving', 'ecosystems,', 'year', 'after', 'year.']
 
 /**
- * Cinematic hero. Replace HERO_IMAGE with client photography when available.
- * The current image is a misty dawn lake from Unsplash, chosen for warm
- * golden-hour tonality that harmonizes with the brand palette.
+ * Cinematic hero. Image is generated locally via scripts/generate-images.mjs
+ * (Gemini 2.5 Flash Image, "Nano Banana") so the brand owns the asset and
+ * the URL is not subject to a third-party CDN. Re-run that script to
+ * regenerate; swap HERO_IMAGE if you ever shoot real client photography.
  */
-const HERO_IMAGE =
-  'https://images.unsplash.com/photo-1439066615861-d1af74d74000?auto=format&fit=crop&w=2400&q=85'
+const HERO_IMAGE = '/images/hero-pond-dawn.webp'
 
 export function Hero() {
   const sectionRef = useRef(null)
