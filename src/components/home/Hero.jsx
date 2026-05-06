@@ -9,12 +9,12 @@ const ease = [0.16, 1, 0.3, 1]
 const HEADLINE = ['Pristine', 'water,', 'thriving', 'ecosystems,', 'year', 'after', 'year.']
 
 /**
- * Cinematic hero. Image is generated locally via scripts/generate-images.mjs
- * (Gemini 2.5 Flash Image, "Nano Banana") so the brand owns the asset and
- * the URL is not subject to a third-party CDN. Re-run that script to
- * regenerate; swap HERO_IMAGE if you ever shoot real client photography.
+ * Cinematic hero. The current image is real client property photography.
+ * The brand-owned dawn cypress backup lives at /images/hero-pond-dawn.webp
+ * if you ever want to swap back. Generate fresh imagery anytime via
+ * scripts/generate-images.mjs.
  */
-const HERO_IMAGE = '/images/hero-pond-dawn.webp'
+const HERO_IMAGE = '/images/hero-pond-louisiana.webp'
 
 export function Hero() {
   const sectionRef = useRef(null)
@@ -36,25 +36,31 @@ export function Hero() {
       ref={sectionRef}
       className="relative isolate min-h-[100svh] overflow-hidden bg-navy-deep text-cream"
     >
-      {/* Photo layer with slow Ken Burns + scroll parallax */}
+      {/* Photo layer with slow Ken Burns + scroll parallax. bg-bottom on
+          mobile keeps the water and trees visible after vertical crop;
+          bg-center on larger viewports preserves the wider composition. */}
       <motion.div
         style={{ y: bgY }}
         className="absolute inset-0 -z-20"
       >
         <div
-          className="ken-burns absolute inset-0 bg-cover bg-center"
+          className="ken-burns absolute inset-0 bg-cover bg-bottom sm:bg-center"
           style={{ backgroundImage: `url(${HERO_IMAGE})` }}
           role="img"
-          aria-label="A still pond at dawn surrounded by pines"
+          aria-label="A Louisiana pond surrounded by pine trees under a clear sky"
         />
       </motion.div>
 
-      {/* Color grading overlays. Layered for depth. */}
+      {/* Color grading overlays, tuned for a bright daytime photograph.
+          Three layers: a global tint, a strong left scrim for the
+          left-aligned headline, and a bottom darken for the scroll cue
+          and trust line. */}
       <motion.div
         style={{ opacity: overlayOpacity }}
-        className="absolute inset-0 -z-10 bg-gradient-to-b from-navy-deep/70 via-navy-deep/45 to-navy-deep/95"
+        className="absolute inset-0 -z-10 bg-navy-deep/35"
       />
-      <div className="absolute inset-0 -z-10 bg-gradient-to-tr from-navy-deep/30 via-transparent to-gold/[0.06]" />
+      <div className="absolute inset-0 -z-10 bg-gradient-to-r from-navy-deep/85 from-0% via-navy-deep/55 via-40% to-transparent to-80%" />
+      <div className="absolute inset-0 -z-10 bg-gradient-to-t from-navy-deep/75 from-0% via-transparent via-45% to-transparent" />
 
       {/* Animated ripples, bottom left */}
       <Ripples />
@@ -64,7 +70,7 @@ export function Hero() {
 
       <motion.div
         style={{ y: contentY, opacity: contentOpacity }}
-        className="container-page relative flex min-h-[100svh] flex-col justify-center pt-28 pb-32 sm:pt-32 sm:pb-28"
+        className="container-page relative flex min-h-[100svh] flex-col justify-center pt-28 pb-32 sm:pt-32 sm:pb-28 [text-shadow:0_2px_18px_rgb(11_18_36_/_0.4)]"
       >
         <motion.p
           initial={{ y: 16, opacity: 0 }}

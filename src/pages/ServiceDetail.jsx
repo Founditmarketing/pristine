@@ -29,10 +29,12 @@ export default function ServiceDetail() {
           className="ken-burns absolute inset-0 -z-20 bg-cover bg-center"
           style={{ backgroundImage: `url(${service.image})` }}
         />
-        <div className="absolute inset-0 -z-10 bg-gradient-to-t from-navy-deep/95 via-navy-deep/55 to-navy-deep/25" />
+        {/* Strong navy floor so the headline reads regardless of the
+            underlying photo's tonality. */}
+        <div className="absolute inset-0 -z-10 bg-gradient-to-t from-navy-deep from-30% via-navy-deep/80 via-65% to-navy-deep/30" />
         <div className="absolute inset-0 -z-10 bg-gradient-to-tr from-navy-deep/30 via-transparent to-gold/[0.05]" />
 
-        <div className="container-page pt-40 pb-20 sm:pt-48 sm:pb-24">
+        <div className="container-page pt-40 pb-20 sm:pt-48 sm:pb-24 [text-shadow:0_2px_14px_rgb(11_18_36_/_0.45)]">
           <motion.p
             initial={{ y: 12, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -117,11 +119,11 @@ function RelatedServices({ currentSlug }) {
               />
               <div
                 aria-hidden="true"
-                className="absolute inset-0 -z-10 bg-gradient-to-t from-navy-deep/90 via-navy-deep/30 to-transparent"
+                className="absolute inset-0 -z-10 bg-gradient-to-t from-navy-deep from-20% via-navy-deep/65 via-60% to-transparent"
               />
-              <div className="p-6 text-cream">
+              <div className="p-6 text-cream [text-shadow:0_2px_10px_rgb(11_18_36_/_0.55)]">
                 <h3 className="font-display text-xl font-semibold">{s.title}</h3>
-                <p className="mt-2 text-sm text-cream/75 line-clamp-2">
+                <p className="mt-2 text-sm text-cream/85 line-clamp-2">
                   {s.short}
                 </p>
               </div>

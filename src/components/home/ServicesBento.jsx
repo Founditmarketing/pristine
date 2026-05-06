@@ -131,9 +131,16 @@ function FeaturedCard({ service, Icon }) {
         className="absolute inset-0 -z-20 bg-cover bg-center transition-transform duration-[2400ms] ease-[var(--ease-out-quart)] group-hover:scale-105"
         style={{ backgroundImage: `url(${FEATURED_IMAGE})` }}
       />
+      {/* Two-stop gradient: dense navy under the copy, fading to a light
+          tint near the top so the photo still reads. */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 -z-10 bg-gradient-to-t from-navy-deep via-navy-deep/60 to-navy-deep/20"
+        className="absolute inset-0 -z-10 bg-gradient-to-t from-navy-deep from-25% via-navy-deep/75 via-65% to-navy-deep/15"
+      />
+      {/* Soft directional wash for global atmosphere. */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 -z-10 bg-gradient-to-tr from-navy-deep/40 via-transparent to-gold/[0.04]"
       />
 
       <div className="absolute left-6 top-6 flex items-center gap-3 sm:left-7 sm:top-7">
@@ -147,11 +154,11 @@ function FeaturedCard({ service, Icon }) {
         )}
       </div>
 
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 [text-shadow:0_2px_12px_rgb(11_18_36_/_0.55)]">
         <h3 className="font-display text-3xl font-semibold sm:text-4xl">
           {service.title}
         </h3>
-        <p className="max-w-md text-sm leading-relaxed text-cream/80 sm:text-base">
+        <p className="max-w-md text-sm leading-relaxed text-cream/85 sm:text-base">
           {service.short}
         </p>
         <span className="mt-2 inline-flex items-center gap-2 text-sm font-medium font-display tracking-tight text-gold">
