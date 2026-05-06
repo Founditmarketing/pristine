@@ -131,16 +131,17 @@ function FeaturedCard({ service, Icon }) {
         className="absolute inset-0 -z-20 bg-cover bg-center transition-transform duration-[2400ms] ease-[var(--ease-out-quart)] group-hover:scale-105"
         style={{ backgroundImage: `url(${FEATURED_IMAGE})` }}
       />
-      {/* Two-stop gradient: dense navy under the copy, fading to a light
-          tint near the top so the photo still reads. */}
+      {/* Soft overall darken so any image lands on a consistent base. */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 -z-10 bg-gradient-to-t from-navy-deep from-25% via-navy-deep/75 via-65% to-navy-deep/15"
+        className="absolute inset-0 -z-10 bg-navy-deep/20"
       />
-      {/* Soft directional wash for global atmosphere. */}
+      {/* Discrete dark platform at the bottom of the card under the text.
+          Sized to ~60 percent so the visual subject (the dredge barge in
+          the middle of the photo) stays visible above it. */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 -z-10 bg-gradient-to-tr from-navy-deep/40 via-transparent to-gold/[0.04]"
+        className="absolute inset-x-0 bottom-0 -z-10 h-[62%] bg-gradient-to-t from-navy-deep from-45% via-navy-deep/70 via-75% to-transparent"
       />
 
       <div className="absolute left-6 top-6 flex items-center gap-3 sm:left-7 sm:top-7">
@@ -154,11 +155,11 @@ function FeaturedCard({ service, Icon }) {
         )}
       </div>
 
-      <div className="flex flex-col gap-4 [text-shadow:0_2px_12px_rgb(11_18_36_/_0.55)]">
-        <h3 className="font-display text-3xl font-semibold sm:text-4xl">
+      <div className="flex flex-col gap-4 [text-shadow:0_1px_3px_rgb(0_0_0_/_0.85),0_4px_24px_rgb(0_0_0_/_0.55)]">
+        <h3 className="font-display text-3xl font-bold sm:text-4xl">
           {service.title}
         </h3>
-        <p className="max-w-md text-sm leading-relaxed text-cream/85 sm:text-base">
+        <p className="max-w-md text-sm leading-relaxed text-cream/95 sm:text-base">
           {service.short}
         </p>
         <span className="mt-2 inline-flex items-center gap-2 text-sm font-medium font-display tracking-tight text-gold">

@@ -34,7 +34,7 @@ export default function ServiceDetail() {
         <div className="absolute inset-0 -z-10 bg-gradient-to-t from-navy-deep from-30% via-navy-deep/80 via-65% to-navy-deep/30" />
         <div className="absolute inset-0 -z-10 bg-gradient-to-tr from-navy-deep/30 via-transparent to-gold/[0.05]" />
 
-        <div className="container-page pt-40 pb-20 sm:pt-48 sm:pb-24 [text-shadow:0_2px_14px_rgb(11_18_36_/_0.45)]">
+        <div className="container-page pt-40 pb-20 sm:pt-48 sm:pb-24 [text-shadow:0_1px_3px_rgb(0_0_0_/_0.75),0_4px_28px_rgb(0_0_0_/_0.45)]">
           <motion.p
             initial={{ y: 12, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
