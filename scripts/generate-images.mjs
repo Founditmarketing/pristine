@@ -17,8 +17,8 @@
 
 import 'dotenv/config'
 import { GoogleGenAI } from '@google/genai'
-import { writeFile, mkdir, stat, unlink } from 'node:fs/promises'
-import { dirname, join } from 'node:path'
+import { writeFile, mkdir, stat, unlink, readFile } from 'node:fs/promises'
+import { dirname, extname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { spawn } from 'node:child_process'
 
@@ -38,6 +38,11 @@ const WEBP_QUALITY = Number(process.env.WEBP_QUALITY ?? 82)
  * Targets define one image each. Prompts describe the scene concretely
  * (subject, light, palette, framing) and end with constraints like
  * "no text, no people" when those would add noise.
+ *
+ * Optional fields:
+ *   model           — override the default MODEL for this target
+ *   referenceImages — array of image paths (relative to project root)
+ *                     to send alongside the prompt as visual context
  */
 const TARGETS = [
   {
@@ -144,6 +149,38 @@ const TARGETS = [
     ].join(' '),
   },
   {
+    name: 'hero-pond-louisiana-hd',
+    aspect: '4:3',
+    model: 'gemini-3-pro-image-preview',
+    referenceImages: ['public/images/hero-pond-louisiana.webp'],
+    prompt: [
+      'Recreate this exact landscape photograph at high resolution and ultra-sharp detail.',
+      'Preserve the composition exactly: the same camera angle, same horizon line,',
+      'same trees in the same positions, same cumulus cloud arrangement,',
+      'same water reflections, same color palette, same lighting, same time of day.',
+      'Do not add or remove any elements. Do not change framing or perspective.',
+      'Output as a professional landscape photograph at maximum native resolution,',
+      'with crisp foliage detail, defined cloud edges, and clean water reflections.',
+      'Photorealistic, ultra-high detail, deep depth of field. No text, no logos.',
+    ].join(' '),
+  },
+  {
+    name: 'hero-pond-daytime',
+    aspect: '16:9',
+    prompt: [
+      'Cinematic landscape photograph of a serene Louisiana pond on a clear summer afternoon.',
+      'Foreground: calm clear pond water reflecting the sky and clouds.',
+      'Mid-ground: a small grassy far shoreline.',
+      'Background: tall southern pine trees and live oaks under a vivid blue sky',
+      'with bright white cumulus clouds.',
+      'Soft natural sunlight, warm and even, light breeze creating subtle ripples.',
+      'Wide horizontal composition, eye-level perspective, deep depth of field.',
+      'Color palette: vivid blue sky, crisp white clouds, navy water, lush green grass, dark pine.',
+      'Photorealistic professional landscape photography, ultra-high detail, 16:9 widescreen.',
+      'No people, no boats, no buildings, no text, no logos, no watermarks.',
+    ].join(' '),
+  },
+  {
     name: 'services-consulting',
     aspect: '3:2',
     prompt: [
@@ -188,26 +225,33 @@ for (const target of targets) {
   process.stdout.write(`Generating ${target.name} (${target.aspect})... `)
 
   try {
-    const response = await ai.models.generateContent({
-      model: MODEL,
-      contents: [
-        {
-          parts: [
-            {
-              text: `${target.prompt}\n\nOutput an image with aspect ratio ${target.aspect}.`,
-            },
-          ],
+    const parts = []
+    for (const ref of target.referenceImages ?? []) {
+      const refPath = resolve(__dirname, '..', ref)
+      const bytes = await readFile(refPath)
+      parts.push({
+        inlineData: {
+          mimeType: mimeFromExt(ref),
+          data: bytes.toString('base64'),
         },
-      ],
+      })
+    }
+    parts.push({
+      text: `${target.prompt}\n\nOutput an image with aspect ratio ${target.aspect}.`,
+    })
+
+    const response = await ai.models.generateContent({
+      model: target.model || MODEL,
+      contents: [{ parts }],
     })
 
     const candidate = response.candidates?.[0]
-    const parts = candidate?.content?.parts ?? []
-    const imagePart = parts.find(
+    const responseParts = candidate?.content?.parts ?? []
+    const imagePart = responseParts.find(
       (p) => p.inlineData?.data || p.inline_data?.data,
     )
     if (!imagePart) {
-      const textPart = parts.find((p) => p.text)
+      const textPart = responseParts.find((p) => p.text)
       throw new Error(
         textPart?.text
           ? `model returned text: ${textPart.text.slice(0, 200)}`
@@ -279,4 +323,12 @@ function hasFFmpeg() {
     ff.on('error', () => resolve(false))
     ff.on('exit', (code) => resolve(code === 0))
   })
+}
+
+function mimeFromExt(filename) {
+  const ext = extname(filename).toLowerCase()
+  if (ext === '.png') return 'image/png'
+  if (ext === '.webp') return 'image/webp'
+  if (ext === '.jpg' || ext === '.jpeg') return 'image/jpeg'
+  return 'application/octet-stream'
 }

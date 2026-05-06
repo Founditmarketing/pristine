@@ -9,12 +9,14 @@ const ease = [0.16, 1, 0.3, 1]
 const HEADLINE = ['Pristine', 'water,', 'thriving', 'ecosystems,', 'year', 'after', 'year.']
 
 /**
- * Cinematic hero. The current image is real client property photography.
- * The brand-owned dawn cypress backup lives at /images/hero-pond-dawn.webp
- * if you ever want to swap back. Generate fresh imagery anytime via
- * scripts/generate-images.mjs.
+ * Cinematic hero. Available options (swap one line):
+ *   /images/hero-pond-daytime.webp        Mirror-reflection daytime, fresh AI generation (default)
+ *   /images/hero-pond-louisiana-hd.webp   AI upscale of the real client photo
+ *   /images/hero-pond-louisiana.webp      Original client photo, ~400 px wide
+ *   /images/hero-pond-dawn.webp           Dramatic cypress swamp at dawn
+ * Generate fresh imagery anytime via `npm run images:generate`.
  */
-const HERO_IMAGE = '/images/hero-pond-louisiana.webp'
+const HERO_IMAGE = '/images/hero-pond-daytime.webp'
 
 export function Hero() {
   const sectionRef = useRef(null)
@@ -47,7 +49,7 @@ export function Hero() {
           className="ken-burns absolute inset-0 bg-cover bg-bottom sm:bg-center"
           style={{ backgroundImage: `url(${HERO_IMAGE})` }}
           role="img"
-          aria-label="A Louisiana pond surrounded by pine trees under a clear sky"
+          aria-label="A still Louisiana pond mirroring pine trees and cumulus clouds"
         />
       </motion.div>
 
