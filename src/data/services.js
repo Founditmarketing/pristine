@@ -1,7 +1,9 @@
 /**
- * Service catalog. `icon` keys reference Lucide React component names; the
- * lookup happens in src/components/home/ServicesBento.jsx so the data file
- * stays a plain JSON-shaped object.
+ * Service catalog. Single source of truth for the bento grid, the Services
+ * overview page, and the per-slug detail pages.
+ *
+ * `icon`  — Lucide React component name (looked up in components that need it)
+ * `image` — path under /public, generated via scripts/generate-images.mjs
  */
 export const services = [
   {
@@ -10,6 +12,7 @@ export const services = [
     short:
       'Restore depth, water capacity, and clarity by removing decades of accumulated muck without draining the pond.',
     icon: 'Layers',
+    image: '/images/services-dredging.webp',
     featured: true,
     badge: 'Most requested',
   },
@@ -19,6 +22,7 @@ export const services = [
     short:
       'Algae control, nutrient balancing, and biological treatments tuned to your waterbody.',
     icon: 'Droplets',
+    image: '/images/services-water-quality.webp',
   },
   {
     slug: 'fountains-aeration',
@@ -26,6 +30,7 @@ export const services = [
     short:
       'Surface fountains and bottom-diffused aeration sized to depth and surface area.',
     icon: 'Wind',
+    image: '/images/services-fountains-aeration.webp',
   },
   {
     slug: 'aquatic-plants',
@@ -33,6 +38,7 @@ export const services = [
     short:
       'Selective control of invasive vegetation while protecting native habitat.',
     icon: 'Leaf',
+    image: '/images/services-aquatic-plants.webp',
   },
   {
     slug: 'fisheries',
@@ -40,6 +46,7 @@ export const services = [
     short:
       'Electrofishing surveys, harvest plans, and underwater structure to grow real trophy fish.',
     icon: 'Fish',
+    image: '/images/services-fisheries.webp',
   },
   {
     slug: 'fish-stocking',
@@ -47,6 +54,7 @@ export const services = [
     short:
       'Bass, bluegill, catfish, and forage delivered and stocked on site.',
     icon: 'Sparkles',
+    image: '/images/services-fish-stocking.webp',
   },
   {
     slug: 'consulting',
@@ -54,5 +62,6 @@ export const services = [
     short:
       'Long-range plans for new builds, restorations, and conservation easements.',
     icon: 'Compass',
+    image: '/images/services-consulting.webp',
   },
 ]

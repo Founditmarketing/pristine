@@ -13,9 +13,10 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
 
-  // Pages without a hero image start in solid mode.
-  const transparentRoutes = ['/']
-  const startsTransparent = transparentRoutes.includes(location.pathname)
+  // Pages with a full-bleed image hero start in transparent mode and
+  // transition to solid as the user scrolls. Other routes start solid.
+  const startsTransparent =
+    location.pathname === '/' || /^\/services\/[^/]+$/.test(location.pathname)
 
   useEffect(() => {
     if (!startsTransparent) {
