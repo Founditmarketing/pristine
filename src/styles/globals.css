@@ -1,0 +1,216 @@
+@import "tailwindcss";
+
+/* =========================================================================
+   Pristine Pond Solutions — Design Tokens
+   Tailwind v4 native @theme. All values exposed as utility classes
+   (e.g. bg-navy, text-gold, font-display, ease-out-expo).
+   ========================================================================= */
+@theme {
+  /* Brand palette. OKLCH for perceptual uniformity, with hex provided
+     in source comments so the brand mapping stays legible. */
+  --color-navy:        oklch(28% 0.06 256);    /* #1B2A4A */
+  --color-navy-soft:   oklch(36% 0.05 256);
+  --color-navy-deep:   oklch(20% 0.05 258);
+
+  --color-gold:        oklch(75% 0.13 82);     /* #D4A843 */
+  --color-gold-soft:   oklch(85% 0.09 82);
+  --color-gold-deep:   oklch(62% 0.13 75);
+
+  --color-lake:        oklch(56% 0.08 230);    /* #2E7D9C */
+  --color-lake-soft:   oklch(72% 0.06 225);
+  --color-lake-deep:   oklch(42% 0.07 235);
+
+  --color-moss:        oklch(52% 0.07 145);    /* #4A7C59 */
+  --color-moss-soft:   oklch(72% 0.05 145);
+
+  /* Warm neutrals: tinted toward the gold/sand brand hue.
+     Never pure white or pure black. */
+  --color-sand:        oklch(96.5% 0.012 80);  /* #F5F0E8 page bg */
+  --color-sand-deep:   oklch(92% 0.018 78);
+  --color-cream:       oklch(98.5% 0.008 82);  /* near-white */
+  --color-ink:         oklch(22% 0.015 260);   /* near-black, faint navy tint */
+  --color-slate-warm:  oklch(45% 0.022 250);   /* body text */
+  --color-mute:        oklch(62% 0.018 250);   /* secondary text */
+  --color-hairline:    oklch(88% 0.012 80);    /* subtle borders */
+
+  /* Typography */
+  --font-display: "Outfit", ui-sans-serif, system-ui, sans-serif;
+  --font-sans:    "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif:   "Playfair Display", ui-serif, Georgia, serif;
+
+  --text-eyebrow: 0.75rem;
+  --text-display-sm: clamp(2rem, 3vw + 1rem, 3.5rem);
+  --text-display: clamp(2.5rem, 4vw + 1rem, 5rem);
+  /* Hero headline. Tuned so it fits comfortably on a 375px iPhone (48px)
+     while still scaling to a cinematic 112px on a 1920px display. */
+  --text-display-lg: clamp(3rem, 5vw + 1.5rem, 7rem);
+
+  /* Motion: exponential ease-out only. No bounce, no elastic. */
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out-expo:  cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Layout */
+  --radius-pill: 9999px;
+  --radius-card: 1.25rem;
+
+  /* Shadows: warm, never pure black */
+  --shadow-soft: 0 1px 2px oklch(20% 0.05 258 / 0.04),
+                 0 8px 24px oklch(20% 0.05 258 / 0.06);
+  --shadow-lift: 0 2px 6px oklch(20% 0.05 258 / 0.08),
+                 0 24px 48px oklch(20% 0.05 258 / 0.12);
+}
+
+/* Base resets and defaults */
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    color: var(--color-slate-warm);
+    background-color: var(--color-sand);
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-size-adjust: 100%; /* prevents iOS Safari font upscaling on rotate */
+    text-size-adjust: 100%;
+  }
+
+  body {
+    min-height: 100dvh;
+    overflow-x: hidden;
+    overscroll-behavior-y: none; /* avoids the rubber-band white flash above hero on iOS */
+  }
+
+  /* Reset the bright iOS tap flash; use designed active states instead. */
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Buttons and links benefit from manipulation: removes 300ms double-tap-zoom delay
+     while preserving pinch-to-zoom on the rest of the page. */
+  button,
+  a,
+  [role='button'],
+  [role='slider'],
+  [role='tab'] {
+    touch-action: manipulation;
+  }
+
+  /* iOS auto-zooms inputs whose computed font-size is below 16px on focus.
+     This guarantees we never trip that. */
+  input,
+  textarea,
+  select {
+    font-size: max(16px, 1rem);
+  }
+
+  ::selection {
+    background-color: var(--color-gold);
+    color: var(--color-navy);
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    color: var(--color-navy);
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+  }
+
+  /* Accessible focus ring; warm gold to match brand */
+  :where(a, button, input, textarea, select, [tabindex]):focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  /* Honor reduced-motion preferences fully */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* =========================================================================
+   Custom utilities
+   ========================================================================= */
+@layer utilities {
+  .font-display { font-family: var(--font-display); }
+  .font-serif   { font-family: var(--font-serif); }
+
+  /* An eyebrow label: small, gold, uppercase, letterspaced. Used above headings. */
+  .eyebrow {
+    font-family: var(--font-display);
+    font-size: var(--text-eyebrow);
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-gold-deep);
+  }
+
+  /* Container with sensible page gutters that also honor iOS notch insets
+     in landscape, where safe-area-inset-left/right are non-zero. */
+  .container-page {
+    width: 100%;
+    margin-inline: auto;
+    padding-inline: max(1.25rem, env(safe-area-inset-left));
+    padding-right: max(1.25rem, env(safe-area-inset-right));
+    max-width: 80rem;
+  }
+  @media (min-width: 768px) {
+    .container-page {
+      padding-inline: max(2rem, env(safe-area-inset-left));
+      padding-right: max(2rem, env(safe-area-inset-right));
+    }
+  }
+  @media (min-width: 1280px) {
+    .container-page {
+      padding-inline: max(3rem, env(safe-area-inset-left));
+      padding-right: max(3rem, env(safe-area-inset-right));
+    }
+  }
+
+  /* Safe-area helpers; applied wherever a fixed/sticky element sits at the
+     edge of the viewport. */
+  .safe-top    { padding-top:    env(safe-area-inset-top); }
+  .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+
+  /* Press feedback for touch: tiny scale on :active. Visual replacement for
+     the tactile feedback we lose without :hover on touch devices. */
+  .press {
+    transition: transform 150ms var(--ease-out-quart);
+  }
+  .press:active {
+    transform: scale(0.97);
+  }
+
+  /* Fine grain noise overlay; gives flat color depth */
+  .noise-overlay::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.04;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.7'/></svg>");
+  }
+
+  /* Slow Ken Burns zoom for hero photography */
+  .ken-burns {
+    animation: ken-burns 24s var(--ease-out-quart) forwards;
+  }
+  @keyframes ken-burns {
+    from { transform: scale(1.05) translate3d(0, 0, 0); }
+    to   { transform: scale(1.18) translate3d(-1.5%, -1%, 0); }
+  }
+
+  /* Gentle floating motion for accent elements */
+  .float-slow {
+    animation: float-slow 9s var(--ease-out-quart) infinite alternate;
+  }
+  @keyframes float-slow {
+    from { transform: translateY(-6px); }
+    to   { transform: translateY(6px); }
+  }
+}

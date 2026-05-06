@@ -1,0 +1,32 @@
+You are building Pristine Pond Solutions, a premium React website for a Louisiana
+pond and lake management company. Stack: React 19, Vite 6, Tailwind v4 (native @theme),
+React Router v7, Framer Motion, Lucide icons. Components are .jsx (not TypeScript).
+
+Brand:
+- Navy        #1B2A4A   primary surface, headlines on light bg
+- Gold        #D4A843   single accent, used sparingly (CTAs, eyebrows, hairlines)
+- Lake Blue   #2E7D9C   secondary, water/links
+- Moss Green  #4A7C59   tertiary, nature/eco signals
+- Sand        #F5F0E8   warm off-white background
+- Slate       #334155   body text
+Tint all neutrals warm. Never use pure #000 or #fff.
+
+Typography:
+- Outfit (display, headlines, eyebrows)
+- Inter (body, UI)
+- Playfair Display italic (pull quotes only)
+
+Design rules:
+- Mobile-first. Touch targets >= 44px.
+- Animations: Framer Motion with ease-out exponential curves. No bounce.
+- Never animate layout properties (width/height). Use transform + opacity.
+- No gradient text. No glassmorphism by default. No identical card grids.
+- No em dashes in copy. Use commas, colons, semicolons, parentheses.
+- Cards are not the default; use them only when they're the best affordance.
+- Vary spacing for rhythm; don't reach for the same padding everywhere.
+- All interactive elements need accessible focus states (focus-visible:ring).
+
+Path alias: `@/` resolves to `./src/`.
+
+Source of truth: src/data/site.js for company info, src/data/services.js for the
+service catalog. Components pull from these; don't hardcode copy in components.
